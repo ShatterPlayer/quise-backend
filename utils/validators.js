@@ -26,7 +26,9 @@ const questionsValidator = (req, res, next) => {
   const { questions } = req.body
 
   if (questions === undefined || !questions.forEach) {
-    return res.status(400).send('Expected array parameter with questions')
+    return res
+      .status(400)
+      .send({ message: 'Expected array parameter with questions' })
   }
 
   if (
@@ -36,20 +38,22 @@ const questionsValidator = (req, res, next) => {
   ) {
     return res
       .status(400)
-      .send(
-        `The quiz can consist of ${minQuestions} to ${maxQuestions} questions`
-      )
+      .send({
+        message: `The quiz can consist of ${minQuestions} to ${maxQuestions} questions`,
+      })
   }
 
   questions.forEach(question => {
     if (question.text === undefined || question.answers === undefined) {
-      return res.status(400).send('Question must contain text and answers')
+      return res
+        .status(400)
+        .send({ message: 'Question must contain text and answers' })
     }
 
     if (!regexQuestionText.test(question.text)) {
       return res
         .status(400)
-        .send('One of question texts does not match the shape')
+        .send({ message: 'One of question texts does not match the shape' })
     }
 
     if (
@@ -58,14 +62,16 @@ const questionsValidator = (req, res, next) => {
     ) {
       return res
         .status(400)
-        .send(
-          `Question answers parameter must be an array of ${answersAmount} elements`
-        )
+        .send({
+          message: `Question answers parameter must be an array of ${answersAmount} elements`,
+        })
     }
 
     question.answers.forEach(answer => {
       if (answer === undefined || !regexQuestionAnswer.test(answer)) {
-        return res.status(400).send('One of answers does not match the shape')
+        return res
+          .status(400)
+          .send({ message: 'One of answers does not match the shape' })
       }
     })
 
@@ -75,7 +81,7 @@ const questionsValidator = (req, res, next) => {
     ) {
       return res
         .status(400)
-        .send('One of correct answers does not match the shape')
+        .send({ message: 'One of correct answers does not match the shape' })
     }
   })
 
@@ -107,7 +113,9 @@ const usernameValidator = (req, res, next) => {
 const answerValidator = (req, res, next) => {
   const { answer } = req.query
   if (answer === undefined || !regexCorrectAnswer.test(answer)) {
-    return res.status(400).send('Answer must be a number in specific range')
+    return res
+      .status(400)
+      .send({ message: 'Answer must be a number in specific range' })
   }
   next()
 }
@@ -118,7 +126,7 @@ const questionNumberValidator = (req, res, next) => {
     questionNumber === undefined ||
     !regexQuestionNumber.test(questionNumber)
   ) {
-    return res.status(400).send('Question number must be a number')
+    return res.status(400).send({ message: 'Question number must be a number' })
   }
   next()
 }
