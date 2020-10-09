@@ -1,11 +1,33 @@
-const { answersAmount } = require('./constants')
+const {
+  answersAmount,
+  minUsernameChars,
+  maxUsernameChars,
+  minQuizTitleChars,
+  maxQuizTitleChars,
+  minQuestionChars,
+  maxQuestionChars,
+  minAnswerChars,
+  maxAnswerChars,
+} = require('./constants')
 
 module.exports = {
-  regexUsername: /^[a-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{3,20}$/i,
+  regexUsername: new RegExp(
+    `^[a-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{${minUsernameChars},${maxUsernameChars}}$`,
+    'i'
+  ),
   regexCorrectAnswer: new RegExp(`^[0-${answersAmount - 1}]$`),
   regexId: /^[0-9a-f]{24}$/,
-  regexQuizTitle: /^[a-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{4,70}$/i,
-  regexQuestionText: /^[a-z0-9'"żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{1,1400}$/i,
-  regexQuestionAnswer: /^[a-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{1,70}$/i,
+  regexQuizTitle: new RegExp(
+    `^[a-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{${minQuizTitleChars},${maxQuizTitleChars}}$`,
+    'i'
+  ),
+  regexQuestionText: new RegExp(
+    `^[a-z0-9'"żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{${minQuestionChars},${maxQuestionChars}}$`,
+    'i'
+  ),
+  regexQuestionAnswer: new RegExp(
+    `^[a-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ ]{${minAnswerChars},${maxAnswerChars}}$`,
+    'i'
+  ),
   regexQuestionNumber: /^[0-9]+$/,
 }

@@ -8,6 +8,8 @@ const {
   regexUsername,
 } = require('./regexes')
 
+const { minQuizTitleChars, maxQuizTitleChars } = require('./constants')
+
 const { maxQuestions, minQuestions, answersAmount } = require('./constants')
 
 const titleValidator = (req, res, next) => {
@@ -16,7 +18,9 @@ const titleValidator = (req, res, next) => {
   if (title === undefined || !regexQuizTitle.test(title)) {
     return res
       .status(400)
-      .send({ message: 'Quiz title does not match the shape' })
+      .send({
+        message: `Quiz title must contain from ${minQuizTitleChars} to ${maxQuizTitleChars} letters and be alphanumeric`,
+      })
   }
 
   next()
@@ -36,11 +40,9 @@ const questionsValidator = (req, res, next) => {
     questions.length > maxQuestions ||
     questions.length < minQuestions
   ) {
-    return res
-      .status(400)
-      .send({
-        message: `The quiz can consist of ${minQuestions} to ${maxQuestions} questions`,
-      })
+    return res.status(400).send({
+      message: `The quiz can consist of ${minQuestions} to ${maxQuestions} questions`,
+    })
   }
 
   questions.forEach(question => {
@@ -60,11 +62,9 @@ const questionsValidator = (req, res, next) => {
       question.answers.forEach === undefined ||
       question.answers.length !== answersAmount
     ) {
-      return res
-        .status(400)
-        .send({
-          message: `Question answers parameter must be an array of ${answersAmount} elements`,
-        })
+      return res.status(400).send({
+        message: `Question answers parameter must be an array of ${answersAmount} elements`,
+      })
     }
 
     question.answers.forEach(answer => {
