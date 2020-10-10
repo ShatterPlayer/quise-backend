@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * Docs available at https://documenter.getpostman.com/view/8627559/TVRka7xF
+ */
 require('dotenv').config()
 const express = require('express')
 const cookieParser = require('cookie-parser')
@@ -27,29 +30,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-// Get basic quiz information
 app.get('/api/quiz', quizIdValidator, connectToDB, getQuiz)
 
-// Creates new quiz. Returns quiz id
 app.post('/api/quiz', titleValidator, questionsValidator, connectToDB, postQuiz)
-/*
-  title: string,
-  questions: [
-    {
-      text: string,
-      answers: [
-        string,
-        string,
-        string, 
-        string
-      ]
-      correctAnswer: number
-    }
-  ]
-*/
 
-// Starts quiz. Returns question information, questionsAmount
-// GET params: quizId, username
 app.get(
   '/api/quiz/start',
   quizIdValidator,
@@ -58,24 +42,6 @@ app.get(
   startQuiz
 )
 
-/* Requests next question, validates answer.
-GET params: answer, questionNumber
-Returns:
-  {
-    correctAnswer: bool,
-    nextQuestion?: {
-      questionNumber: number,
-      text: string,
-      answers: [
-        string,
-        string,
-        string,
-        string
-      ]
-    },
-    isQuizDone: bool
-  }
-*/
 app.get(
   '/api/quiz/nextquestion',
   answerValidator,
