@@ -8,7 +8,9 @@ module.exports = async (req, res) => {
     const quiz = await quizzes.findOne({ _id: ObjectId(quizId) })
 
     if (!quiz) {
-      return res.status(400).send({ message: 'Invalid quiz id' })
+      return res
+        .status(400)
+        .send({ message: 'Quiz with given id does not exist' })
     }
 
     return res.send(quiz)
