@@ -5,7 +5,14 @@ module.exports = async (req, res) => {
     const { quizId } = req.query
     const quizzes = client.db('main').collection('quizzes')
 
-    const quiz = await quizzes.findOne({ _id: ObjectId(quizId) })
+    const quiz = await quizzes.findOne(
+      { _id: ObjectId(quizId) },
+      {
+        projection: {
+          questions: 0,
+        },
+      }
+    )
 
     if (!quiz) {
       return res
