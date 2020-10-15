@@ -20,6 +20,12 @@ module.exports = async (req, res) => {
         .send({ message: 'Quiz with given id does not exist' })
     }
 
+    // Answers are stored in an object. More convenient form in frontend would be array.
+    quiz.users = quiz.users.map(user => ({
+      ...user,
+      answers: Object.values(user.answers),
+    }))
+
     return res.send(quiz)
   } catch (e) {
     console.log(e)
