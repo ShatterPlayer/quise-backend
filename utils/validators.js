@@ -15,12 +15,10 @@ const { maxQuestions, minQuestions, answersAmount } = require('./constants')
 const titleValidator = (req, res, next) => {
   const { title } = req.body
 
-  if (title === undefined || !regexQuizTitle.test(title)) {
-    return res
-      .status(400)
-      .send({
-        message: `Quiz title must contain from ${minQuizTitleChars} to ${maxQuizTitleChars} letters and be alphanumeric`,
-      })
+  if (title === undefined || !regexQuizTitle.test(title.trim())) {
+    return res.status(400).send({
+      message: `Quiz title must contain from ${minQuizTitleChars} to ${maxQuizTitleChars} letters and be alphanumeric`,
+    })
   }
 
   next()
@@ -52,7 +50,7 @@ const questionsValidator = (req, res, next) => {
         .send({ message: 'Question must contain text and answers' })
     }
 
-    if (!regexQuestionText.test(question.text)) {
+    if (!regexQuestionText.test(question.text.trim())) {
       return res
         .status(400)
         .send({ message: 'One of question texts does not match the shape' })
@@ -68,7 +66,7 @@ const questionsValidator = (req, res, next) => {
     }
 
     question.answers.forEach(answer => {
-      if (answer === undefined || !regexQuestionAnswer.test(answer)) {
+      if (answer === undefined || !regexQuestionAnswer.test(answer.trim())) {
         return res
           .status(400)
           .send({ message: 'One of answers does not match the shape' })
@@ -84,8 +82,9 @@ const questionsValidator = (req, res, next) => {
         .send({ message: 'One of correct answers does not match the shape' })
     }
   })
-
-  next()
+  if (!res.headersSent) {
+    next()
+  }
 }
 
 const quizIdValidator = (req, res, next) => {
@@ -102,7 +101,7 @@ const quizIdValidator = (req, res, next) => {
 
 const usernameValidator = (req, res, next) => {
   const { username } = req.query
-  if (username === undefined || !regexUsername.test(username)) {
+  if (username === undefined || !regexUsername.test(username.trim())) {
     return res.status(400).send({
       message: 'Name must be alphanumeric and must consist of 3 to 20',
     })
