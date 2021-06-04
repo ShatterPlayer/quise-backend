@@ -21,6 +21,7 @@ const {
   usernameValidator,
   answerValidator,
   questionNumberValidator,
+  reCaptchaValidator,
 } = require('./utils/validators')
 const decodeJWT = require('./handlers/decodeJWT')
 
@@ -32,10 +33,18 @@ app.use(cookieParser())
 
 app.get('/api/quiz', quizIdValidator, connectToDB, getQuiz)
 
-app.post('/api/quiz', titleValidator, questionsValidator, connectToDB, postQuiz)
+app.post(
+  '/api/quiz',
+  reCaptchaValidator,
+  titleValidator,
+  questionsValidator,
+  connectToDB,
+  postQuiz
+)
 
 app.get(
   '/api/quiz/start',
+  reCaptchaValidator,
   quizIdValidator,
   usernameValidator,
   connectToDB,

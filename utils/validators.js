@@ -1,3 +1,5 @@
+const axios = require('axios').default
+const querystring = require('querystring')
 const {
   regexCorrectAnswer,
   regexId,
@@ -130,6 +132,34 @@ const questionNumberValidator = (req, res, next) => {
   next()
 }
 
+const reCaptchaValidator = (req, res, next) => {
+  let reCaptchaToken = ''
+  if (req.method === 'POST') {
+    reCaptchaToken = req.body.reCaptchaToken
+  } else if (req.method === 'GET') {
+    reCaptchaToken = req.query.reCaptchaToken
+  }
+
+  axios
+    .post(
+      'https://www.google.com/recaptcha/api/siteverify',
+      querystring.stringify({
+        secret: process.env.RECAPTCHA_SECRET,
+        response: reCaptchaToken,
+      })
+    )
+    .then(({ data }) => {
+      if (data.success) {
+        return next()
+      } else {
+        throw new Error()
+      }
+    })
+    .catch(() => {
+      return res.status(403).send({ message: 'ReCAPTCHA validation failed' })
+    })
+}
+
 module.exports = {
   titleValidator,
   questionsValidator,
@@ -137,4 +167,5 @@ module.exports = {
   usernameValidator,
   answerValidator,
   questionNumberValidator,
+  reCaptchaValidator,
 }
