@@ -1,4 +1,5 @@
 const axios = require('axios').default
+const requestIP = require('request-ip')
 const querystring = require('querystring')
 const {
   regexCorrectAnswer,
@@ -146,6 +147,7 @@ const reCaptchaValidator = (req, res, next) => {
       querystring.stringify({
         secret: process.env.RECAPTCHA_SECRET,
         response: reCaptchaToken,
+        remoteip: requestIP.getClientIp(req),
       })
     )
     .then(({ data }) => {
