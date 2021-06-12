@@ -5,7 +5,6 @@
 require('dotenv').config()
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const requestIP = require('request-ip')
 
 const app = express()
 
@@ -62,10 +61,6 @@ app.get(
 )
 
 app.get('/api/quiz/leaderboard', quizIdValidator, connectToDB, quizLeaderboard)
-
-app.get('/api/getIP', (req, res) => {
-  res.send(requestIP.getClientIp(req))
-})
 
 app.listen(app.get('port'), () => {
   console.log(`Server is listening on port ${app.get('port')}`)
