@@ -65,7 +65,12 @@ module.exports = async (req, res) => {
       process.env.SECRET,
       { expiresIn: '3h' }
     )
-    res.cookie('JWT', token, { httpOnly: true, maxAge: 10800000 /*3h*/ })
+    res.cookie('JWT', token, {
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+      maxAge: 10800000 /*3h*/,
+    })
 
     return res.send(quizData[0].questions[0])
   } catch (e) {
