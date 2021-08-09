@@ -30,7 +30,7 @@ app.set('port', process.env.PORT || 80)
 
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://quise.netlify.app'],
     credentials: true,
   })
 )
