@@ -1,5 +1,5 @@
 const axios = require('axios').default
-const requestIP = require('request-ip')
+const getIP = require('./getIP')
 const querystring = require('querystring')
 const {
   regexCorrectAnswer,
@@ -141,14 +141,20 @@ const reCaptchaValidator = (req, res, next) => {
     reCaptchaToken = req.query.reCaptchaToken
   }
 
+  const reCaptchaPayload = {
+    secret: process.env.RECAPTCHA_SECRET,
+    response: reCaptchaToken,
+  }
+  const IP = getIP(req)
+
+  if (IP) {
+    reCaptchaPayload.remoteip = IP
+  }
+
   axios
     .post(
       'https://www.google.com/recaptcha/api/siteverify',
-      querystring.stringify({
-        secret: process.env.RECAPTCHA_SECRET,
-        response: reCaptchaToken,
-        remoteip: requestIP.getClientIp(req),
-      })
+      querystring.stringify(reCaptchaPayload)
     )
     .then(({ data }) => {
       if (data.success) {
