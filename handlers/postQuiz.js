@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
     const data = {
       title: req.body.title,
       questions: req.body.questions,
+      createdAt: new Date(),
       users: [],
     }
     const insertedDoc = await quizzes.insertOne(data)
