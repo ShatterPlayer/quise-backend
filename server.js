@@ -24,7 +24,7 @@ const {
   questionNumberValidator,
   reCaptchaValidator,
 } = require('./utils/validators')
-const decodeSolveToken = require('./handlers/decodeSolveToken')
+const decodeJWT = require('./handlers/decodeJWT')
 const getCreatorUUID = require('./handlers/getCreatorUUID')
 
 app.set('port', process.env.PORT || 80)
@@ -46,7 +46,7 @@ app.post(
   reCaptchaValidator,
   titleValidator,
   questionsValidator,
-  getCreatorUUID(true),
+  getCreatorUUID,
   connectToDB,
   postQuiz
 )
@@ -64,7 +64,7 @@ app.get(
   '/api/quiz/nextquestion',
   answerValidator,
   questionNumberValidator,
-  decodeSolveToken,
+  decodeJWT('SolveToken'),
   connectToDB,
   nextQuestion
 )
