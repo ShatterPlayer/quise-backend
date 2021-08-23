@@ -25,6 +25,7 @@ const {
   reCaptchaValidator,
 } = require('./utils/validators')
 const decodeSolveToken = require('./handlers/decodeSolveToken')
+const getCreatorUUID = require('./handlers/getCreatorUUID')
 
 app.set('port', process.env.PORT || 80)
 
@@ -45,6 +46,7 @@ app.post(
   reCaptchaValidator,
   titleValidator,
   questionsValidator,
+  getCreatorUUID(true),
   connectToDB,
   postQuiz
 )

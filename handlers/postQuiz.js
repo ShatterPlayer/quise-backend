@@ -10,6 +10,7 @@ module.exports = async (req, res) => {
       questions: req.body.questions,
       createdAt: new Date(),
       users: [],
+      creator: req.creatorUUID,
     }
     const insertedDoc = await quizzes.insertOne(data)
 
