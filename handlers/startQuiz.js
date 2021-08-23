@@ -62,10 +62,10 @@ module.exports = async (req, res) => {
         username: req.query.username,
         quizId: req.query.quizId,
       },
-      process.env.SECRET,
+      process.env.SOLVETOKEN_SECRET,
       { expiresIn: '3h' }
     )
-    res.cookie('JWT', token, {
+    res.cookie('SolveToken', token, {
       httpOnly: true,
       sameSite: 'None',
       secure: true,

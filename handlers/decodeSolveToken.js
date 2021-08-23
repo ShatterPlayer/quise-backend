@@ -1,7 +1,10 @@
 const jwt = require('jsonwebtoken')
 module.exports = (req, res, next) => {
   try {
-    req.decodedToken = jwt.verify(req.cookies.JWT, process.env.SECRET)
+    req.decodedSolveToken = jwt.verify(
+      req.cookies.SolveToken,
+      process.env.SOLVETOKEN_SECRET
+    )
     next()
   } catch {
     return res.status(400).send({ message: 'Invalid token' })

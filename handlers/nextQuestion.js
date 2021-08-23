@@ -6,8 +6,8 @@ module.exports = async (req, res) => {
     const quiz = quizzes.aggregate([
       {
         $match: {
-          _id: ObjectId(req.decodedToken.quizId),
-          'users.username': req.decodedToken.username,
+          _id: ObjectId(req.decodedSolveToken.quizId),
+          'users.username': req.decodedSolveToken.username,
         },
       },
       {
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
               input: '$users',
               as: 'user',
               cond: {
-                $eq: ['$$user.username', req.decodedToken.username],
+                $eq: ['$$user.username', req.decodedSolveToken.username],
               },
             },
           },
@@ -72,19 +72,19 @@ module.exports = async (req, res) => {
 
     quizzes.updateOne(
       {
-        _id: ObjectId(req.decodedToken.quizId),
-        'users.username': req.decodedToken.username,
+        _id: ObjectId(req.decodedSolveToken.quizId),
+        'users.username': req.decodedSolveToken.username,
       },
       {
         $set: {
-          ['users.$[user].answers.' +
-          req.query.questionNumber]: isAnswerCorrect,
+          ['users.$[user].answers.' + req.query.questionNumber]:
+            isAnswerCorrect,
         },
       },
       {
         arrayFilters: [
           {
-            'user.username': req.decodedToken.username,
+            'user.username': req.decodedSolveToken.username,
           },
         ],
       }

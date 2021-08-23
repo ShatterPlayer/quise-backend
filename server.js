@@ -24,7 +24,7 @@ const {
   questionNumberValidator,
   reCaptchaValidator,
 } = require('./utils/validators')
-const decodeJWT = require('./handlers/decodeJWT')
+const decodeSolveToken = require('./handlers/decodeSolveToken')
 
 app.set('port', process.env.PORT || 80)
 
@@ -62,7 +62,7 @@ app.get(
   '/api/quiz/nextquestion',
   answerValidator,
   questionNumberValidator,
-  decodeJWT,
+  decodeSolveToken,
   connectToDB,
   nextQuestion
 )
