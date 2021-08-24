@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 module.exports = tokenName => (req, res, next) => {
   try {
-    req.decodedSolveToken = jwt.verify(
+    req.decodedToken = jwt.verify(
       req.cookies[tokenName],
-      process.env.SOLVETOKEN_SECRET
+      process.env[`${tokenName.toUpperCase()}_SECRET`]
     )
     next()
   } catch {
