@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     ])
 
     if (!(await quiz.hasNext())) {
-      return res.status(400).send({ message: 'Invalid quiz id' })
+      return res.status(400).send({ message: 'Quiz does not exist' })
     }
 
     const quizData = await quiz.toArray()
