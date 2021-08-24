@@ -7,6 +7,11 @@ module.exports = tokenName => (req, res, next) => {
     )
     next()
   } catch {
+    res.clearCookie(tokenName, {
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+    })
     return res.status(400).send({ message: 'Invalid token' })
   }
 }
