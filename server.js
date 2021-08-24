@@ -15,6 +15,7 @@ const startQuiz = require('./handlers/startQuiz')
 const nextQuestion = require('./handlers/nextQuestion')
 const quizLeaderboard = require('./handlers/quizLeaderboard')
 const getQuiz = require('./handlers/getQuiz')
+const deleteQuiz = require('./handlers/deleteQuiz')
 const {
   quizIdValidator,
   titleValidator,
@@ -67,6 +68,14 @@ app.get(
   decodeJWT('SolveToken'),
   connectToDB,
   nextQuestion
+)
+
+app.delete(
+  '/api/quiz',
+  quizIdValidator,
+  decodeJWT('CreateToken'),
+  connectToDB,
+  deleteQuiz
 )
 
 app.get('/api/quiz/leaderboard', quizIdValidator, connectToDB, quizLeaderboard)
