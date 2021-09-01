@@ -26,7 +26,7 @@ const {
   reCaptchaValidator,
 } = require('./utils/validators')
 const decodeJWT = require('./handlers/decodeJWT')
-const getCreatorUUID = require('./handlers/getCreatorUUID')
+const creatorCheck = require('./handlers/creatorCheck')
 
 app.set('port', process.env.PORT || 80)
 
@@ -44,11 +44,11 @@ app.get('/api/quiz', quizIdValidator, connectToDB, getQuiz)
 
 app.post(
   '/api/quiz',
-  reCaptchaValidator,
+  // reCaptchaValidator,
   titleValidator,
   questionsValidator,
-  getCreatorUUID,
   connectToDB,
+  creatorCheck,
   postQuiz
 )
 
