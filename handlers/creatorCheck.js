@@ -28,7 +28,10 @@ module.exports = async (req, res, next) => {
       const creators = client.db('main').collection('creators')
       const validityID = uuidv4()
 
-      const insertResults = await creators.insertOne({ validityID })
+      const insertResults = await creators.insertOne({
+        validityID,
+        lastOperation: new Date(),
+      })
       const creatorID = String(insertResults.insertedId)
 
       setupCreateToken(creatorID, validityID, res)

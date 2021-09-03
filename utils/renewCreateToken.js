@@ -8,7 +8,7 @@ module.exports = async (creatorID, res) => {
 
   const updateResults = await creators.updateOne(
     { _id: ObjectId(creatorID) },
-    { $set: { validityID } }
+    { $set: { validityID, lastOperation: new Date() } }
   )
 
   if (updateResults.modifiedCount === 0) {
