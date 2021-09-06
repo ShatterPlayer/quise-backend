@@ -44,7 +44,7 @@ app.get('/api/quiz', quizIdValidator, connectToDB, getQuiz)
 
 app.post(
   '/api/quiz',
-  // reCaptchaValidator,
+  reCaptchaValidator,
   titleValidator,
   questionsValidator,
   connectToDB,
