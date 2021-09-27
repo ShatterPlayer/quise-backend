@@ -16,15 +16,13 @@ const nextQuestion = require('./handlers/nextQuestion')
 const quizLeaderboard = require('./handlers/quizLeaderboard')
 const getQuiz = require('./handlers/getQuiz')
 const deleteQuiz = require('./handlers/deleteQuiz')
-const {
-  quizIdValidator,
-  titleValidator,
-  questionsValidator,
-  usernameValidator,
-  answerValidator,
-  questionNumberValidator,
-  reCaptchaValidator,
-} = require('./utils/validators')
+const quizIdValidator = require('./utils/validators/quizIdValidator')
+const titleValidator = require('./utils/validators/titleValidator')
+const questionsValidator = require('./utils/validators/questionsValidator')
+const usernameValidator = require('./utils/validators/usernameValidator')
+const answerValidator = require('./utils/validators/answerValidator')
+const questionNumberValidator = require('./utils/validators/questionNumberValidator')
+const reCaptchaValidator = require('./utils/validators/reCaptchaValidator')
 const decodeJWT = require('./handlers/decodeJWT')
 const creatorCheck = require('./handlers/creatorCheck')
 
