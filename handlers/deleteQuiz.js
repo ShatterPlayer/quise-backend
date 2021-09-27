@@ -3,7 +3,6 @@ const validateCreator = require('../utils/validateCreator')
 
 module.exports = async (req, res) => {
   try {
-    console.log(req.decodedToken)
     const creatorValidation = await validateCreator(
       req.decodedToken.creatorID,
       req.decodedToken.validityID
